@@ -1,5 +1,10 @@
 import { DataSourceOptions } from "typeorm";
 import { apiEnv } from "../../app/envs/apiEnv";
+import { AdminEntity } from "../../app/shared/entities/admin.entity";
+import { RecruiterEntity } from "../../app/shared/entities/recruiter.entity";
+import { CandidateEntity } from "../../app/shared/entities/candidate.entity";
+import { JobEntity } from "../../app/shared/entities/job.entity";
+import { ApplicationEntity } from "../../app/shared/entities/candidate_x_job_application.entity";
 
 
 const config : DataSourceOptions = {
@@ -10,7 +15,7 @@ const config : DataSourceOptions = {
     ssl: {
         rejectUnauthorized: false
     },
-    entities: [],
+    entities: [AdminEntity, RecruiterEntity, CandidateEntity, JobEntity, ApplicationEntity],
     migrations: []
 };
 export default config;
