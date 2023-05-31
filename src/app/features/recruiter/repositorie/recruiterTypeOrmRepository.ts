@@ -3,7 +3,7 @@ import { pgHelper } from "../../../shared/helpers/pgHelper";
 import { RecruiterEntity } from "../../../shared/entities/recruiter.entity";
 
 
-export class RecruiterTypeOrmRepository {
+class RecruiterTypeOrmRepository {
     private recruiterRepository?: Repository<RecruiterEntity> | any;
 
     async initializeRepository() : Promise<void> {
@@ -12,3 +12,5 @@ export class RecruiterTypeOrmRepository {
 
     
 };
+
+export const recruiterRepository = new RecruiterTypeOrmRepository;
