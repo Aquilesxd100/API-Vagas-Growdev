@@ -4,12 +4,15 @@ import { RecruiterEntity } from "../../../shared/entities/recruiter.entity";
 
 
 class RecruiterTypeOrmRepository {
-    private recruiterRepository?: Repository<RecruiterEntity> | any;
+    private recruiterRepository?: Repository<RecruiterEntity>;
 
     async initializeRepository() : Promise<void> {
         this.recruiterRepository = pgHelper.client.manager.getRepository(RecruiterEntity);
     };
 
+    async getRecruiterByUserName(username : string) : Promise<RecruiterEntity | null | undefined> {
+        return await this.recruiterRepository?.findOne({ where: { userName: username } });
+    };
     
 };
 
