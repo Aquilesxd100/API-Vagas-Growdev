@@ -1,4 +1,4 @@
-export default function validName(name: string) : true | string {
+export default function validNewName(name: string) : true | string {
     if (name.length < 6 || name.length > 50) {
         return "O name precisa ter ao menos 6 caracteres e no máximo 50.";
     };
