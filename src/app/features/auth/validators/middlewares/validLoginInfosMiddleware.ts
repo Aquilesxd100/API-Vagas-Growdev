@@ -34,7 +34,7 @@ export default async function validLoginInfosMiddleware
 
     if (!loggedAccount || loggedAccount.password !== password) {
         return res.status(400).send({
-            message: "Login ou senha incorretos."
+            message: "Login ou/e senha incorreto(s)."
         })
     };
 
