@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LogInAccountType, UserInfosType } from "../../../models/types";
+import { UserInfosType } from "../../../models/types";
 import newTokenGeneratorUC from "../usecases/newTokenGeneratorUC";
 
 export default function logInController(req: Request, res : Response) {

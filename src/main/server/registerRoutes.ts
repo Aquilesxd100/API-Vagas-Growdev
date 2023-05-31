@@ -10,10 +10,16 @@ import { candidateRoutes } from "../../app/features/candidate/routes/candidateRo
 import { sharedMiddlewares } from "../../app/shared/routes/sharedMiddlewares";
 import { sharedRoutes } from "../../app/shared/routes/sharedRoutes";
 
+
+
+import authTokenMiddleware from "../../app/features/auth/validators/middlewares/authTokenMiddleware";
+
 export default function registerRoutes(app : Application) {
     app.use(authMiddlewares, authRoutes);
     app.use(adminMiddlewares, adminRoutes);
     app.use(recruiterMiddlewares, recruiterRoutes);
     app.use(candidateMiddlewares, candidateRoutes);
     app.use(sharedMiddlewares, sharedRoutes);
+
+    app.get("/test", authTokenMiddleware)
 };

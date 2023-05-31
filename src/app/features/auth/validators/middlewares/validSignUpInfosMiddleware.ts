@@ -13,14 +13,14 @@ export default async function validSignUpInfosMiddleware
         });
     };
 
-    if (infosArray.some((attribute) => attribute !== attribute.toLowerCase())) {
+    if (username !== username.toLowerCase()) {
         return res.status(400).send({
-            message: "Todas as informações devem estar em letra minúscula."
+            message: "O username deve ter somente letras minúsculas."
         });
     };
 
-    if (accountType !== "admin"
-    && accountType !== "candidate") {
+    if (accountType.toLowerCase() !== "admin"
+    && accountType.toLowerCase() !== "candidate") {
         return res.status(400).send({
             message: "Só é possivel criar contas de admin e candidate por essa rota."
         });
