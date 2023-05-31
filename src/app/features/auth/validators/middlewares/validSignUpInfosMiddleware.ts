@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import validUserName from "../validUserName";
-import validName from "./validName";
+import validName from "../validName";
 
 export default async function validSignUpInfosMiddleware
 (req : Request, res : Response, next : NextFunction) {

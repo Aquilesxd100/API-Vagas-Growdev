@@ -14,6 +14,10 @@ class AdminTypeOrmRepository {
         return await this.adminRepository?.findOne({ where: { userName: userName } });
     };
 
+    async createAdmin(newAdmin : AdminEntity) : Promise<void> {
+        await newAdmin.save();
+    };
+
 };
 
 export const adminRepository = new AdminTypeOrmRepository;

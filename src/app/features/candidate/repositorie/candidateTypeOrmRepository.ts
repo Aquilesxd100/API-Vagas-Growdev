@@ -14,6 +14,10 @@ class CandidateTypeOrmRepository {
         return await this.candidateRepository?.findOne({ where: { userName: userName } });
     };
 
+    async createCandidate(newCandidate : CandidateEntity) : Promise<void> {
+        await newCandidate.save();
+    };
+
 };
 
 export const candidateRepository = new CandidateTypeOrmRepository;
