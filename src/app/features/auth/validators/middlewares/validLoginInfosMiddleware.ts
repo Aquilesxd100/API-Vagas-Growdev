@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { candidateRepository } from "../../../candidate/repositorie/candidateTypeOrmRepository";
 import { recruiterRepository } from "../../../recruiter/repositorie/recruiterTypeOrmRepository";
 import { adminRepository } from "../../../admin/repositorie/adminTypeOrmRepository";
+import { LogInAccountType } from "../../../../models/types";
 
 export default async function validLoginInfosMiddleware
 (req : Request, res : Response, next : NextFunction) {
@@ -20,23 +21,47 @@ export default async function validLoginInfosMiddleware
         });
     };
 
+    const loggedAccountInfos : LogInAccountType = {
+        userId : "",
+        userType : "candidate",
+        user: null
+    };
+
     const checkCandidateAccount = await candidateRepository.getCandidateByUserName(username);
+
+    if (checkCandidateAccount) {
+        loggedAccountInfos.userId = checkCandidateAccount.id as string;
+        loggedAccountInfos.userType = "candidate";
+        loggedAccountInfos.user = checkCandidateAccount;
+    };
 
     const checkRecruiterAccount = !checkCandidateAccount 
     ? await recruiterRepository.getRecruiterByUserName(username) 
     : undefined;
 
-    const checkAdminAccount = !checkCandidateAccount && !checkRecruiterAccount 
+    if (checkRecruiterAccount) {
+        loggedAccountInfos.userId = checkRecruiterAccount.id as string;
+        loggedAccountInfos.userType = "recruiter";
+        loggedAccountInfos.user = checkRecruiterAccount;
+    };
+
+    const checkAdminAccount = !checkCandidateAccount && !checkRecruiterAccount
     ? await adminRepository.getAdminByUserName(username) 
     : undefined;
 
-    const loggedAccount = [checkCandidateAccount, checkRecruiterAccount, checkAdminAccount].find((account) => account);
+    if (checkAdminAccount) {
+        loggedAccountInfos.userId = checkAdminAccount.id as string;
+        loggedAccountInfos.userType = "admin";
+        loggedAccountInfos.user = checkAdminAccount;
+    };
 
-    if (!loggedAccount || loggedAccount.password !== password) {
+
+    if (!loggedAccountInfos.user || loggedAccountInfos.user.password !== password) {
         return res.status(400).send({
             message: "Login ou/e senha incorreto(s)."
         })
     };
 
+    req.body.loggedAccountInfos = loggedAccountInfos;
     next();
 };
