@@ -1,11 +1,10 @@
 import { LogInAccountType } from "../../../models/types";
 import AuthenticationError from "../../../shared/errors/authenticationError";
-import NotFoundError from "../../../shared/errors/notFoundError";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";
 import { recruiterRepository } from "../../recruiter/repositorie/recruiterTypeOrmRepository";
 
-export default async function findAccountUC
+export default async function findAccountInfosUC
 (username : string, password : string) : Promise<LogInAccountType> {
     const loggedAccountInfos : LogInAccountType = {
         userId : "",

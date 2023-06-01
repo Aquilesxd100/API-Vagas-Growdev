@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { LogInAccountType } from "../../../models/types";
 import newTokenGeneratorUC from "../usecases/newTokenGeneratorUC";
-import findAccountUC from "../usecases/findAccountUC";
+import findAccountInfosUC from "../usecases/findAccountInfosUC";
 
 export default async function logInController(req: Request, res : Response) {
     try {
         const { username, password } = req.body;
 
-        const loggedAccountInfos : LogInAccountType = await findAccountUC(username, password);
+        const loggedAccountInfos : LogInAccountType = await findAccountInfosUC(username, password);
         const generatedToken : string = newTokenGeneratorUC(loggedAccountInfos);
         
         return res.status(200).send({
