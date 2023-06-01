@@ -11,7 +11,7 @@ export default async function validLoginInfosMiddleware
 
     if (infosArray.some((attribute) => typeof attribute !== "string")) {
         return res.status(400).send({
-            message: "Tipo de uma ou mais informações inválidas, por favor informe um username e password válidos."
+            message: "Tipo de username e/ou password invalido(s)."
         });
     };
 
