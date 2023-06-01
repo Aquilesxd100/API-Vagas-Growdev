@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { UserInfosType } from "../../../../models/types";
+import { UserInfosType } from "../../types/types";
 import verifyTokenUC from "../../usecases/verifyTokenUC";
 
 export default async function authTokenMiddleware

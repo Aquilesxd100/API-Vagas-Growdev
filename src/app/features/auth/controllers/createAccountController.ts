@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import createAccountUC from "../usecases/createAccountUC";
-import { newAccountType } from "../../../models/types";
+import { newAccountType } from "../types/types";
 
 export default async function createAccountController(req: Request, res: Response) {
     const { username, accountType, password, name } = req.body;

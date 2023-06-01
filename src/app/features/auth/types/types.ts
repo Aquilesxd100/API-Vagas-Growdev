@@ -1,6 +1,6 @@
-import { AdminEntity } from "../shared/entities/admin.entity"
-import { CandidateEntity } from "../shared/entities/candidate.entity"
-import { RecruiterEntity } from "../shared/entities/recruiter.entity"
+import { AdminEntity } from "../../../shared/entities/admin.entity"
+import { CandidateEntity } from "../../../shared/entities/candidate.entity"
+import { RecruiterEntity } from "../../../shared/entities/recruiter.entity"
 
 export interface UserInfosType {
     userId : string,

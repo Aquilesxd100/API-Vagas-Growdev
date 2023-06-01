@@ -1,4 +1,4 @@
-import { UserInfosType, newAccountType } from "../../../models/types";
+import { UserInfosType, newAccountType } from "../types/types";
 import { AdminEntity } from "../../../shared/entities/admin.entity";
 import { CandidateEntity } from "../../../shared/entities/candidate.entity";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";

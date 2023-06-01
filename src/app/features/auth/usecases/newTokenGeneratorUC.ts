@@ -1,4 +1,4 @@
-import { UserInfosType } from "../../../models/types";
+import { UserInfosType } from "../types/types";
 import { secretCode } from "../../../envs/authEnv";
 
 const jwt = require("jsonwebtoken");

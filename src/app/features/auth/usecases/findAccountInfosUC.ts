@@ -1,4 +1,4 @@
-import { LogInAccountType } from "../../../models/types";
+import { LogInAccountType } from "../types/types";
 import AuthenticationError from "../../../shared/errors/authenticationError";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";

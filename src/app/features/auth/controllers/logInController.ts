@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LogInAccountType } from "../../../models/types";
+import { LogInAccountType } from "../types/types";
 import newTokenGeneratorUC from "../usecases/newTokenGeneratorUC";
 import findAccountInfosUC from "../usecases/findAccountInfosUC";
 
