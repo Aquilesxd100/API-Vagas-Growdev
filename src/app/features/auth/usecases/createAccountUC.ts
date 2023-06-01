@@ -1,11 +1,23 @@
-import { UserInfosType, newAccountType } from "../types/types";
+import { newAccountType } from "../types/types";
 import { AdminEntity } from "../../../shared/entities/admin.entity";
 import { CandidateEntity } from "../../../shared/entities/candidate.entity";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";
+import BadRequestError from "../../../shared/errors/badRequestError";
 
 export default async function createAccountUC
 (newAccountInfos : newAccountType) : Promise<void> {
+
+    if (typeof newAccountInfos.accountType !== "string") {
+        throw new BadRequestError("Informe um tipo válido de conta a ser criada.");
+    };
+    newAccountInfos.accountType = newAccountInfos.accountType.toLowerCase();
+
+    if (newAccountInfos.accountType !== "admin"
+    && newAccountInfos.accountType !== "candidate") {
+        throw new BadRequestError("Só é possivel criar contas de admin e candidate por essa rota.");
+    };
+    
     const createdAccount : CandidateEntity | AdminEntity = newAccountInfos.accountType === "candidate" 
     ? new CandidateEntity 
     : new AdminEntity;

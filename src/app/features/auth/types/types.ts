@@ -13,5 +13,5 @@ export interface newAccountType {
     name : string,
     username : string,
     password : string,
-    accountType : "admin" | "candidate"
+    accountType : string | undefined
 };

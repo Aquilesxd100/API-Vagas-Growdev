@@ -1,28 +1,21 @@
 import { NextFunction, Request, Response } from "express";
-import validNewUserName from "../validNewUserName";
-import validNewName from "../validNewName";
+import validNewUserName from "../../../features/auth/validators/validNewUserName";
+import validNewName from "../../../features/auth/validators/validNewName";
 
 export default async function validSignUpInfosMiddleware
 (req : Request, res : Response, next : NextFunction) {
-    const { username, accountType, password, name } = req.body;
-    const infosArray = [username, accountType, password, name];
+    let { username, password, name } = req.body;
+    const infosArray = [username, password, name];
     
     if (infosArray.some((attribute) => typeof attribute !== "string")) {
         return res.status(400).send({
-            message: "Tipo de uma ou mais informações inválidas, por favor informe um username, name, accountType e password válidos."
+            message: "Tipo de uma ou mais informações inválidas."
         });
     };
 
     if (username !== username.toLowerCase()) {
         return res.status(400).send({
             message: "O username deve ter somente letras minúsculas."
-        });
-    };
-
-    if (accountType.toLowerCase() !== "admin"
-    && accountType.toLowerCase() !== "candidate") {
-        return res.status(400).send({
-            message: "Só é possivel criar contas de admin e candidate por essa rota."
         });
     };
 

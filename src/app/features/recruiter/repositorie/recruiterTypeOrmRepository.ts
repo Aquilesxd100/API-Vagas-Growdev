@@ -13,6 +13,10 @@ class RecruiterTypeOrmRepository {
     async getRecruiterByUserName(username : string) : Promise<RecruiterEntity | null | undefined> {
         return await this.recruiterRepository?.findOne({ where: { userName: username } });
     };
+
+    async saveRecruiter(recruiter : RecruiterEntity) : Promise<void> {
+        await recruiter.save();
+    };
     
 };
 
