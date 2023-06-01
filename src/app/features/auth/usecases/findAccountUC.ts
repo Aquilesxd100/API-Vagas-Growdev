@@ -41,11 +41,7 @@ export default async function findAccountUC
         loggedAccountInfos.user = checkAdminAccount;
     };
 
-    if(!loggedAccountInfos.user) {
-        throw new NotFoundError("Usuário não encontrado.");
-    };
-
-    if (loggedAccountInfos.user.password !== password) {
+    if (!loggedAccountInfos.user || loggedAccountInfos.user.password !== password) {
         throw new AuthenticationError("Login ou/e senha incorreto(s).");
     };
 
