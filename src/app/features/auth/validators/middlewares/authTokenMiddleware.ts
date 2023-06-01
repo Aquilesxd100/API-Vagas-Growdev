@@ -10,8 +10,11 @@ export default async function authTokenMiddleware
     if (typeof token === "string") {
         verifiedToken = verifyTokenUC(token);
     };
-    console.log(authHeader)
-    console.log(token)
-    console.log(verifiedToken)
+    if (!verifiedToken) {
+        res.status(401).send({
+            message: "Você não tem permissão para acessar esse conteúdo."
+        })        
+    };
+    req.body.loggedUser = verifiedToken;
     next();
 };
