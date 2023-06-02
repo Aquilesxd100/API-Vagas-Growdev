@@ -6,7 +6,7 @@ import { pgHelper } from "../../../shared/helpers/pgHelper";
 class AdminTypeOrmRepository {
     private adminRepository?: Repository<AdminEntity>;
 
-    async initializeRepository() : Promise<void> {
+    initializeRepository() : void {
         this.adminRepository = pgHelper.client.manager.getRepository(AdminEntity);
     };
 

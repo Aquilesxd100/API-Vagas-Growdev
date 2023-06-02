@@ -6,7 +6,7 @@ import { RecruiterEntity } from "../../../shared/entities/recruiter.entity";
 class RecruiterTypeOrmRepository {
     private recruiterRepository?: Repository<RecruiterEntity>;
 
-    async initializeRepository() : Promise<void> {
+    initializeRepository() : void {
         this.recruiterRepository = pgHelper.client.manager.getRepository(RecruiterEntity);
     };
 

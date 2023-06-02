@@ -6,10 +6,13 @@ import { ApplicationEntity } from "../entities/candidate_x_job_application.entit
 class ApplicationsTypeOrmRepository {
     private applicationsRepository?: Repository<ApplicationEntity>;
 
-    async initializeRepository() : Promise<void> {
+    initializeRepository() : void {
         this.applicationsRepository = pgHelper.client.manager.getRepository(ApplicationEntity);
     };
 
+    async createNewApplication(application : ApplicationEntity) : Promise<void> {
+        await application.save();
+    };
 };
 
 export const applicationRepository = new ApplicationsTypeOrmRepository;

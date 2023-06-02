@@ -7,8 +7,19 @@ import Job from "../../models/Job";
 class JobsTypeOrmRepository {
     private jobsRepository?: Repository<JobEntity> | any;
 
-    async initializeRepository() : Promise<void> {
+    initializeRepository() : void {
         this.jobsRepository = pgHelper.client.manager.getRepository(JobEntity);
+    };
+
+    async getJobById(jobId : string) : Promise<JobEntity | undefined> {
+        return await this.jobsRepository?.findOne({ where: { id: jobId } });
+    };
+
+    async getJobByIdWithApplications(jobId : string) : Promise<JobEntity | undefined> {
+        return await this.jobsRepository?.findOne({ where: {
+            id: jobId,
+            relations: ["applications"]
+        }});
     };
 
     async getAllJobs() : Promise<Array<Job>> {
