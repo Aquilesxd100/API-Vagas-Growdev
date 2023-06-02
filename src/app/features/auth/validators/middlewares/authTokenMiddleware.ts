@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { UserInfosType } from "../../types/types";
 import verifyTokenUC from "../../usecases/verifyTokenUC";
+import findAccountByType from "../../usecases/findAccountByType";
 
 export default async function authTokenMiddleware
 (req: Request, res: Response, next : NextFunction) {
@@ -11,10 +12,20 @@ export default async function authTokenMiddleware
         verifiedToken = verifyTokenUC(token);
     };
     if (!verifiedToken) {
-        res.status(401).send({
+        return res.status(401).send({
             message: "Você não tem permissão para acessar esse conteúdo."
         })        
     };
-    req.body.loggedUser = verifiedToken;
+    
+    const loggedUser = await findAccountByType(verifiedToken);
+    if (!loggedUser) {
+        return res.status(401).send({
+            message: "Você não tem mais permissão de acesso, faça login novamente."
+        });
+    };
+    req.body.loggedUserInfos = {
+        userType: verifiedToken.userType,
+        loggedUser: loggedUser
+    };
     next();
 };

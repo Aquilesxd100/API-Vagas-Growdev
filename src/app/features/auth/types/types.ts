@@ -15,3 +15,7 @@ export interface newAccountType {
     password : string,
     accountType : string | undefined
 };
+export interface LoggedUserInfosType {
+    userType: "admin" | "candidate" | "recruiter",
+    loggedUser: AdminEntity | CandidateEntity | RecruiterEntity
+};

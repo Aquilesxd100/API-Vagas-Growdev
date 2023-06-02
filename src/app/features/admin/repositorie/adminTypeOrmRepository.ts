@@ -10,6 +10,10 @@ class AdminTypeOrmRepository {
         this.adminRepository = pgHelper.client.manager.getRepository(AdminEntity);
     };
 
+    async getAdminById(id : string) : Promise<AdminEntity | null | undefined> {
+        return await this.adminRepository?.findOne({ where: { id: id } });
+    };
+
     async getAdminByUserName(userName : string) : Promise<AdminEntity | null | undefined> {
         return await this.adminRepository?.findOne({ where: { userName: userName } });
     };

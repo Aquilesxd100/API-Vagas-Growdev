@@ -10,6 +10,10 @@ class CandidateTypeOrmRepository {
         this.candidateRepository = pgHelper.client.manager.getRepository(CandidateEntity);
     };
 
+    async getCandidateById(id: string) : Promise<CandidateEntity | null | undefined> {
+        return await this.candidateRepository?.findOne({ where: { id: id } });
+    };
+
     async getCandidateByUserName(userName : string) : Promise<CandidateEntity | null | undefined> {
         return await this.candidateRepository?.findOne({ where: { userName: userName } });
     };

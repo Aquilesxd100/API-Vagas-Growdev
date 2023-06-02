@@ -10,6 +10,10 @@ class RecruiterTypeOrmRepository {
         this.recruiterRepository = pgHelper.client.manager.getRepository(RecruiterEntity);
     };
 
+    async getRecruiterById(id : string) : Promise<RecruiterEntity | null | undefined> {
+        return await this.recruiterRepository?.findOne({ where: { id: id } });
+    };
+
     async getRecruiterByUserName(username : string) : Promise<RecruiterEntity | null | undefined> {
         return await this.recruiterRepository?.findOne({ where: { userName: username } });
     };
