@@ -1,5 +1,4 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { RecruiterEntity } from "./recruiter.entity";
 import { CandidateEntity } from "./candidate.entity";
 import { JobEntity } from "./job.entity";
 

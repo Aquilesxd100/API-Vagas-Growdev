@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import { RecruiterEntity } from "./recruiter.entity";
+import { ApplicationEntity } from "./candidate_x_job_application.entity";
 
 @Entity({ name: 'jobs' })
 export class JobEntity extends BaseEntity {
@@ -26,4 +27,7 @@ export class JobEntity extends BaseEntity {
 
     @Column({ name: 'max_applications' })
     maxApplications?: number;
+
+    @OneToMany(() => ApplicationEntity, application => application.jobId)
+    applications?: ApplicationEntity[]
 };
