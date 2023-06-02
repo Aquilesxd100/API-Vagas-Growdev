@@ -9,7 +9,7 @@ export default async function createRecruiterController
         const { username, password, name, companyName } = req.body;
         const loggedUserInfos = req.body.loggedUserInfos;
         
-        checkUserType(loggedUserInfos.userType, "admin");
+        checkUserType(loggedUserInfos.userType, ["admin"]);
 
         const newRecruiterInfos : newRecruiterInfosType = {
             name : name,
