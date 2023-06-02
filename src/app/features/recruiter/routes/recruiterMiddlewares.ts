@@ -8,4 +8,6 @@ recruiterMiddlewares.get("/candidates/:jobid", []);
 recruiterMiddlewares.get("/createdjobs", []);
 recruiterMiddlewares.put("/activatejob/:jobid", []);
 recruiterMiddlewares.put("/desactivatejob/:jobid", []);
+recruiterMiddlewares.put("/approveapplication/jobId/userId", []);
+recruiterMiddlewares.put("/refuseapplication/jobId/userId", []);
 
