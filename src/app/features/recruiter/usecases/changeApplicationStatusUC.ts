@@ -16,7 +16,7 @@ export default async function changeApplicationStatusUC
         throw new ForbiddenError("Somente o criador da vaga pode alterar seus status de candidatura.");
     };
 
-    const allApplications  = await applicationRepository.getApplicationsByJobId("jobId") as Array<ApplicationEntity>;
+    const allApplications  = await applicationRepository.getApplicationsByJobId(jobId) as Array<ApplicationEntity>;
 
     const foundApplication : ApplicationEntity | undefined = allApplications.find((application) => application.candidateId === candidateId);
 
