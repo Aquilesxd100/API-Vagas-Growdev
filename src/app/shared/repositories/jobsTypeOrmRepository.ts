@@ -42,8 +42,8 @@ class JobsTypeOrmRepository {
         return jobs;
     };
 
-    async saveJob(newJob : JobEntity) : Promise<void> {
-        await newJob.save();
+    async saveJob(job : JobEntity) : Promise<void> {
+        await job.save();
     };
 
     async deleteJob(jobToRemove : JobEntity) : Promise<void> {
