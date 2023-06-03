@@ -34,6 +34,10 @@ class JobsTypeOrmRepository {
         return jobs;
     };
 
+    async saveJob(newJob : JobEntity) : Promise<void> {
+        await newJob.save();
+    };
+
 };
 
 export const jobsRepository = new JobsTypeOrmRepository;
