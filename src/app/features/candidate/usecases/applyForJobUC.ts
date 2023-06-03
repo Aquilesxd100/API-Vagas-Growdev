@@ -20,5 +20,5 @@ export default async function applyForJobUC
     newApplication.jobId = job.id;
     newApplication.applicationDate = getCurrentDate();
 
-    await applicationRepository.createNewApplication(newApplication);
+    await applicationRepository.saveApplication(newApplication);
 };
