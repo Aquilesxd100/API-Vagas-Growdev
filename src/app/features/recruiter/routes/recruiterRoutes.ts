@@ -5,6 +5,7 @@ import getRecruiterJobsController from "../controllers/getRecruiterJobsControlle
 import getCandidatesByJobIdController from "../controllers/getCandidatesByJobIdController";
 import activateJobController from "../controllers/activateJobController";
 import deactivateJobController from "../controllers/deactivateJobController";
+import approveApplicationController from "../controllers/approveApplicationController";
 
 export const recruiterRoutes = Router();
 
@@ -14,5 +15,5 @@ recruiterRoutes.get("/candidates/:jobid", getCandidatesByJobIdController);
 recruiterRoutes.get("/createdjobs", getRecruiterJobsController);
 recruiterRoutes.put("/activatejob/:jobid", activateJobController);
 recruiterRoutes.put("/deactivatejob/:jobid", deactivateJobController);
-recruiterRoutes.put("/approveapplication/:jobid/:userid", []);
+recruiterRoutes.put("/approveapplication/:jobid/:userid", approveApplicationController);
 recruiterRoutes.put("/refuseapplication/:jobid/:userid", []);

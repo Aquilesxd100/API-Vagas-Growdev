@@ -2,6 +2,7 @@ import { Router } from "express";
 import authTokenMiddleware from "../../auth/validators/middlewares/authTokenMiddleware";
 import validCreateJobInfos from "../validators/middlewares/validCreateJobInfos";
 import validJobIdMiddleware from "../../../shared/validators/middlewares/validJobIdMiddleware";
+import validCandidateIdMiddleware from "../validators/middlewares/validCandidateIdMiddleware";
 
 export const recruiterMiddlewares = Router();
 
@@ -11,6 +12,6 @@ recruiterMiddlewares.get("/candidates/:jobid", [authTokenMiddleware, validJobIdM
 recruiterMiddlewares.get("/createdjobs", [authTokenMiddleware]);
 recruiterMiddlewares.put("/activatejob/:jobid", [authTokenMiddleware, validJobIdMiddleware]);
 recruiterMiddlewares.put("/deactivatejob/:jobid", [authTokenMiddleware, validJobIdMiddleware]);
-recruiterMiddlewares.put("/approveapplication/:jobid/:userid", [authTokenMiddleware, validJobIdMiddleware]);
-recruiterMiddlewares.put("/refuseapplication/:jobid/:userid", [authTokenMiddleware, validJobIdMiddleware]);
+recruiterMiddlewares.put("/approveapplication/:jobid/:userid", [authTokenMiddleware, validJobIdMiddleware, validCandidateIdMiddleware]);
+recruiterMiddlewares.put("/refuseapplication/:jobid/:userid", [authTokenMiddleware, validJobIdMiddleware, validCandidateIdMiddleware]);
 

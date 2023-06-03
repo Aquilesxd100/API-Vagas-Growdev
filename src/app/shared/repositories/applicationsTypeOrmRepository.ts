@@ -10,7 +10,7 @@ class ApplicationsTypeOrmRepository {
         this.applicationsRepository = pgHelper.client.manager.getRepository(ApplicationEntity);
     };
 
-    async createNewApplication(application : ApplicationEntity) : Promise<void> {
+    async saveApplication(application : ApplicationEntity) : Promise<void> {
         await application.save();
     };
 
