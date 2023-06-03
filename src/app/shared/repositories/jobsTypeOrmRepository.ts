@@ -38,6 +38,10 @@ class JobsTypeOrmRepository {
         await newJob.save();
     };
 
+    async deleteJob(jobToRemove : JobEntity) : Promise<void> {
+        await jobToRemove.remove();
+    };
+
 };
 
 export const jobsRepository = new JobsTypeOrmRepository;
