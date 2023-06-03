@@ -8,7 +8,14 @@ export default function validJobsQueriesMiddleware
     if (queriesArray.some((query) => typeof query !== "undefined" && typeof query !== "string")) {
         return res.status(400).send({
             message: "Tipo de uma ou mais queries inválida."
-        })
+        });
     };
+
+    if (recruiter && recruiter.length !== 32) {
+        return res.status(400).send({
+            message: "Tipo de ID do recrutador inválido."
+        });
+    };
+
     next()
 };

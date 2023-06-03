@@ -18,6 +18,12 @@ export default async function validCandidateIdMiddleware
         }); 
     };
 
+    if (userId.length !== 32) {
+        return res.status(400).send({
+            message: "ID inválido."
+        });
+    };
+
     const foundCandidate : CandidateEntity | null | undefined = await candidateRepository.getCandidateById(userId);
 
     if (!foundCandidate) {

@@ -18,6 +18,12 @@ export default async function validJobIdMiddleware
         });
     };
 
+    if (jobId.length !== 32) {
+        return res.status(400).send({
+            message: "ID inválido."
+        });
+    };
+
     const job : JobEntity | undefined | null = await jobsRepository.getJobById(jobId);
     if (!job) {
         return res.status(404).send({
