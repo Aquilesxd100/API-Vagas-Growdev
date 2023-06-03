@@ -34,6 +34,14 @@ class JobsTypeOrmRepository {
         return jobs;
     };
 
+    async getJobsWithApplicationsByRecruiterId(recruiterId : string) : Promise<Array<JobEntity>> {
+        const jobs : Array<JobEntity> = await this.jobsRepository?.find({
+            where: { recruiterId: recruiterId },
+            relations: ["applications"]
+        });
+        return jobs;
+    };
+
     async saveJob(newJob : JobEntity) : Promise<void> {
         await newJob.save();
     };
