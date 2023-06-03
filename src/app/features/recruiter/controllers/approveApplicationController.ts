@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import approveApplicationUC from "../usecases/approveApplicationUC";
+import changeApplicationStatusUC from "../usecases/changeApplicationStatusUC";
 
 export default async function approveApplicationController
 (req: Request, res: Response) {
@@ -8,7 +8,7 @@ export default async function approveApplicationController
         const candidate = req.body.currentCandidate;
         const job = req.body.currentJob;
 
-        await approveApplicationUC(loggedUserInfos, candidate.id, job.id);
+        await changeApplicationStatusUC(loggedUserInfos, candidate.id, job.id, "approve");
 
         return res.status(200).send({
             message: "Status de candidatura atualizado com sucesso."

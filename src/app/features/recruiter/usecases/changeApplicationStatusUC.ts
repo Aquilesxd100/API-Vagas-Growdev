@@ -6,8 +6,10 @@ import { applicationRepository } from "../../../shared/repositories/applications
 import checkUserType from "../../../shared/validators/checkUserType";
 import { LoggedUserInfosType } from "../../auth/types/types";
 
-export default async function refuseApplicationUC
-(loggedUserInfos : LoggedUserInfosType, candidateId : string, jobId : string) {
+export default async function changeApplicationStatusUC
+(loggedUserInfos : LoggedUserInfosType, candidateId : string, jobId : string, status : "approve" | "refuse") {
+    const errorMessage : string = status === "approve" ? "aprovado" : "não aprovado";
+
     checkUserType(loggedUserInfos.userType, ["recruiter"]);
 
     if (jobId !== loggedUserInfos.loggedUser.id) {
@@ -22,10 +24,10 @@ export default async function refuseApplicationUC
         throw new NotFoundError("Nenhum usuário com esse ID foi encontrado nas candidaturas para essa vaga.");
     };
 
-    if (!foundApplication.approval) {
-        throw new BadRequestError("Esse candidato já esta como não aprovado nessa vaga.");
+    if (status === "approve" && foundApplication.approval || status === "refuse" && !foundApplication.approval) {
+        throw new BadRequestError(`Esse candidato já esta como ${errorMessage} nessa vaga.`);
     };
 
-    foundApplication.approval = false;
+    foundApplication.approval = status === "approve" ? true : false;
     await applicationRepository.saveApplication(foundApplication);
 };
