@@ -13,6 +13,12 @@ class ApplicationsTypeOrmRepository {
     async createNewApplication(application : ApplicationEntity) : Promise<void> {
         await application.save();
     };
+
+    async getApplicationsByJobId(jobId : string) : Promise<Array<ApplicationEntity> | undefined> {
+        return await this.applicationsRepository?.find({
+            where: { jobId: jobId }
+        });
+    };
 };
 
 export const applicationRepository = new ApplicationsTypeOrmRepository;
