@@ -11,7 +11,7 @@ export default function validJobsQueriesMiddleware
         });
     };
 
-    if (recruiter && recruiter.length !== 32) {
+    if (recruiter && recruiter.length !== 36) {
         return res.status(400).send({
             message: "Tipo de ID do recrutador inválido."
         });

@@ -18,7 +18,7 @@ export default async function validJobIdMiddleware
         });
     };
 
-    if (jobId.length !== 32) {
+    if (jobId.length !== 36) {
         return res.status(400).send({
             message: "ID inválido."
         });

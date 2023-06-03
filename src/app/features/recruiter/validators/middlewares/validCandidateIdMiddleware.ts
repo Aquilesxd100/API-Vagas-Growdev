@@ -18,7 +18,7 @@ export default async function validCandidateIdMiddleware
         }); 
     };
 
-    if (userId.length !== 32) {
+    if (userId.length !== 36) {
         return res.status(400).send({
             message: "ID inválido."
         });
