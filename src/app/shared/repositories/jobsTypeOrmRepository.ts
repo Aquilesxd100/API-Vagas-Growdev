@@ -54,7 +54,7 @@ class JobsTypeOrmRepository {
     };
 
     async deleteJob(jobToRemove : JobEntity) : Promise<void> {
-        await this.jobsRepository.delete(jobToRemove.id);
+        await this.jobsRepository.remove(jobToRemove);
     };
 
 };
