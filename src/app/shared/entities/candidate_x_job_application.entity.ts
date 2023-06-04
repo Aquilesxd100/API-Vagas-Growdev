@@ -16,14 +16,14 @@ export class ApplicationEntity extends BaseEntity {
     @Column({ name: 'candidate_id' })
     candidateId?: string;
     
-    @ManyToOne(() => CandidateEntity)
-    @JoinColumn({ name: 'candidate_id', referencedColumnName: 'id' })
+    @ManyToOne(() => CandidateEntity, candidate => candidate.applications)
+    @JoinColumn({ name: "candidate_id" })
     candidate? : CandidateEntity;
 
     @Column({ name: 'job_id' })
     jobId?: string;
     
-    @ManyToOne(() => JobEntity)
-    job? : JobEntity;
-
+    @ManyToOne(() => JobEntity, job => job.applications)
+    @JoinColumn({ name: "job_id" })
+    job?: JobEntity
 };

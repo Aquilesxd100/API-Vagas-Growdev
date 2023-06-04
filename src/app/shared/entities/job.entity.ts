@@ -22,10 +22,6 @@ export class JobEntity extends BaseEntity {
     @Column({ name: 'recruiter_id' })
     recruiterId?: string;
 
-    @ManyToOne(() => RecruiterEntity)
-    @JoinColumn({ name: 'recruiter_id'})
-    recruiter?: RecruiterEntity
-
     @Column({ name: 'max_applications' })
     maxApplications?: number;
 

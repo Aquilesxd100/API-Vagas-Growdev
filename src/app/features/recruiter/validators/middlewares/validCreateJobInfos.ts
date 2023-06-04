@@ -6,9 +6,8 @@ import getCurrentDate from "../../../../shared/helpers/getCurrentDate";
 export default async function validCreateJobInfos(req : Request, res : Response, next : NextFunction) {
     const { description, companyName, expirationDate, maxApplications } = req.body;
     const infosStringArray = [description, companyName, expirationDate];
-    const infosArray = infosStringArray.concat([maxApplications]);
 
-    if (infosArray.some((info) => typeof info === "undefined")) {
+    if (infosStringArray.some((info) => typeof info === "undefined")) {
         return res.status(400).send({
             message: "Por favor informe uma description, companyName e expirationDate para a vaga."
         });

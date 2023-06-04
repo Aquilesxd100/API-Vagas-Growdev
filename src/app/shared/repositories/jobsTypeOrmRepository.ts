@@ -29,7 +29,9 @@ class JobsTypeOrmRepository {
 
     async getAllJobsWithApplications() : Promise<Array<JobEntity>> {
         const jobs : Array<JobEntity> = await this.jobsRepository?.find({
-            relations: ["applications"]
+            relations: {
+                applications: true,
+            }
         });
         return jobs;
     };
