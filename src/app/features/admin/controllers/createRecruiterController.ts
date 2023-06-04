@@ -1,15 +1,11 @@
 import { Response, Request } from "express";
 import { newRecruiterInfosType } from "../types/types";
 import createRecruiterUC from "../usecases/createRecruiterUC";
-import checkUserType from "../../../shared/validators/checkUserType";
 
 export default async function createRecruiterController
 (req : Request, res : Response) {
     try {
         const { username, password, name, companyName } = req.body;
-        const loggedUserInfos = req.body.loggedUserInfos;
-        
-        checkUserType(loggedUserInfos.userType, ["admin"]);
 
         const newRecruiterInfos : newRecruiterInfosType = {
             name : name,

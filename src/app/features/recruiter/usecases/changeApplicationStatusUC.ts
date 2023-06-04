@@ -3,14 +3,11 @@ import BadRequestError from "../../../shared/errors/badRequestError";
 import ForbiddenError from "../../../shared/errors/forbiddenError";
 import NotFoundError from "../../../shared/errors/notFoundError";
 import { applicationRepository } from "../../../shared/repositories/applicationsTypeOrmRepository";
-import checkUserType from "../../../shared/validators/checkUserType";
 import { LoggedUserInfosType } from "../../auth/types/types";
 
 export default async function changeApplicationStatusUC
 (loggedUserInfos : LoggedUserInfosType, candidateId : string, jobId : string, status : "approve" | "refuse") {
     const errorMessage : string = status === "approve" ? "aprovado" : "não aprovado";
-
-    checkUserType(loggedUserInfos.userType, ["recruiter"]);
 
     if (jobId !== loggedUserInfos.loggedUser.id) {
         throw new ForbiddenError("Somente o criador da vaga pode alterar seus status de candidatura.");
