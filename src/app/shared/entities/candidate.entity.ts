@@ -15,6 +15,8 @@ export class CandidateEntity extends BaseEntity {
     @Column({ name: 'password' })
     password?: string;
 
-    @OneToMany(() => ApplicationEntity, application => application.candidate)
+    @OneToMany(() => ApplicationEntity, application => application.candidate, {
+        onDelete: "CASCADE"
+    })
     applications?: ApplicationEntity[]
 };
