@@ -16,10 +16,15 @@ class JobsTypeOrmRepository {
     };
 
     async getJobByIdWithApplications(jobId : string) : Promise<JobEntity | undefined> {
-        return await this.jobsRepository?.findOne({ where: {
-            id: jobId,
-            relations: ["applications"]
-        }});
+        return await this.jobsRepository?.findOne(
+            { 
+                where: {
+                    id: jobId,
+                },
+                relations: {
+                    applications: true
+                }
+        });
     };
 
     async getAllJobs() : Promise<Array<Job>> {

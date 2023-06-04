@@ -19,6 +19,7 @@ export default async function applyForJobController
                 message: error.message
             });
         };
+        console.log(error)
         return res.status(400).send({
             message: "Erro!"
         });

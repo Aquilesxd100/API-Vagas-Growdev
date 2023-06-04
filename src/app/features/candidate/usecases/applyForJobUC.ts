@@ -8,9 +8,7 @@ import applyValidator from "../validators/applyValidator";
 
 export default async function applyForJobUC
 (loggedUserInfos : LoggedUserInfosType, job : JobEntity) {
-
     const jobWithApplications = await jobsRepository.getJobByIdWithApplications(job.id as string) as JobEntity;
-
     await applyValidator(loggedUserInfos, jobWithApplications);
 
     const newApplication : ApplicationEntity = new ApplicationEntity;

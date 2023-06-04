@@ -23,7 +23,9 @@ export class ApplicationEntity extends BaseEntity {
     @Column({ name: 'job_id' })
     jobId?: string;
     
-    @ManyToOne(() => JobEntity, job => job.applications)
+    @ManyToOne(() => JobEntity, job => job.applications, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn({ name: "job_id" })
     job?: JobEntity
 };

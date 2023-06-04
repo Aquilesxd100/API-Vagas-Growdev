@@ -26,7 +26,7 @@ export class JobEntity extends BaseEntity {
     maxApplications?: number;
 
     @OneToMany(() => ApplicationEntity, application => application.job, {
-        onDelete: "CASCADE"
+        cascade: true
     })
     applications?: ApplicationEntity[]
 };

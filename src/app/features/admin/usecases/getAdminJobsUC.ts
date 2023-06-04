@@ -33,7 +33,7 @@ export default async function getAdminJobsUC
     };
 
     if (queries.empty === false) {
-        jobs = jobs.filter((job) => !job.applications || !job.applications.length);
+        jobs = jobs.filter((job : any) => job.applications.length);
     };
 
     if (queries.full === false) {
