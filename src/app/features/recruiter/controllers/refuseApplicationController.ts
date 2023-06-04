@@ -8,7 +8,7 @@ export default async function refuseApplicationController
         const candidate = req.body.currentCandidate;
         const job = req.body.currentJob;
 
-        await changeApplicationStatusUC(loggedUserInfos, candidate.id, job.id, "refuse");
+        await changeApplicationStatusUC(loggedUserInfos, candidate.id, job, "refuse");
 
         return res.status(200).send({
             message: "Status de candidatura atualizado com sucesso."

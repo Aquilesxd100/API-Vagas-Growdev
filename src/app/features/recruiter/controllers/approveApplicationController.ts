@@ -8,7 +8,7 @@ export default async function approveApplicationController
         const candidate = req.body.currentCandidate;
         const job = req.body.currentJob;
 
-        await changeApplicationStatusUC(loggedUserInfos, candidate.id, job.id, "approve");
+        await changeApplicationStatusUC(loggedUserInfos, candidate.id, job, "approve");
 
         return res.status(200).send({
             message: "Status de candidatura atualizado com sucesso."

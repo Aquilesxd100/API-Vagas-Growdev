@@ -1,4 +1,5 @@
 import { ApplicationEntity } from "../../../shared/entities/candidate_x_job_application.entity";
+import { JobEntity } from "../../../shared/entities/job.entity";
 import BadRequestError from "../../../shared/errors/badRequestError";
 import ForbiddenError from "../../../shared/errors/forbiddenError";
 import NotFoundError from "../../../shared/errors/notFoundError";
@@ -6,14 +7,13 @@ import { applicationRepository } from "../../../shared/repositories/applications
 import { LoggedUserInfosType } from "../../auth/types/types";
 
 export default async function changeApplicationStatusUC
-(loggedUserInfos : LoggedUserInfosType, candidateId : string, jobId : string, status : "approve" | "refuse") {
+(loggedUserInfos : LoggedUserInfosType, candidateId : string, job : JobEntity, status : "approve" | "refuse") {
     const errorMessage : string = status === "approve" ? "aprovado" : "não aprovado";
-
-    if (jobId !== loggedUserInfos.loggedUser.id) {
+    if (job.recruiterId !== loggedUserInfos.loggedUser.id) {
         throw new ForbiddenError("Somente o criador da vaga pode alterar seus status de candidatura.");
     };
 
-    const allApplications  = await applicationRepository.getApplicationsByJobId(jobId) as Array<ApplicationEntity>;
+    const allApplications  = await applicationRepository.getApplicationsByJobId(job.id as string) as Array<ApplicationEntity>;
 
     const foundApplication : ApplicationEntity | undefined = allApplications.find((application) => application.candidateId === candidateId);
 
@@ -21,7 +21,7 @@ export default async function changeApplicationStatusUC
         throw new NotFoundError("Nenhum usuário com esse ID foi encontrado nas candidaturas para essa vaga.");
     };
 
-    if (status === "approve" && foundApplication.approval || status === "refuse" && !foundApplication.approval) {
+    if (status === "approve" && foundApplication.approval || status === "refuse" && foundApplication.approval === false) {
         throw new BadRequestError(`Esse candidato já esta como ${errorMessage} nessa vaga.`);
     };
 
