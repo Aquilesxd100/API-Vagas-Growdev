@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { ApplicationEntity } from "./candidate_x_job_application.entity";
 
 @Entity({ name: 'candidates' })
 export class CandidateEntity extends BaseEntity {
@@ -13,4 +14,7 @@ export class CandidateEntity extends BaseEntity {
 
     @Column({ name: 'password' })
     password?: string;
+
+    @OneToMany(() => ApplicationEntity, application => application.candidateId)
+    applications?: ApplicationEntity[]
 };

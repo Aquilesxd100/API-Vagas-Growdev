@@ -38,6 +38,7 @@ sharedRoutes.get("/jobs", async (req: Request, res: Response) => {
                 message: error.message
             });
         };
+        console.log(error)
         return res.status(400).send({
             message: "Erro!"
         });

@@ -12,7 +12,6 @@ export default async function getAdminJobsUC
     validAdminJobsQueries(queries);
     queries = queryBooleanConverter(queries);
     let jobs : Array<JobEntity> = await jobsRepository.getAllJobsWithApplications();
-
     if (queries.recruiter) {
         jobs = jobs.filter((job) => job.recruiterId === queries.recruiter);
     };

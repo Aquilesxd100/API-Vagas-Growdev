@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import { CandidateEntity } from "./candidate.entity";
 import { JobEntity } from "./job.entity";
 
@@ -15,14 +15,15 @@ export class ApplicationEntity extends BaseEntity {
 
     @Column({ name: 'candidate_id' })
     candidateId?: string;
-    @OneToOne(() => CandidateEntity)
+    
+    @ManyToOne(() => CandidateEntity)
     @JoinColumn({ name: 'candidate_id', referencedColumnName: 'id' })
     candidate? : CandidateEntity;
 
     @Column({ name: 'job_id' })
     jobId?: string;
-    @OneToOne(() => JobEntity)
-    @JoinColumn({ name: 'job_id', referencedColumnName: 'id' })
+    
+    @ManyToOne(() => JobEntity)
     job? : JobEntity;
 
 };
