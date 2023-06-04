@@ -29,7 +29,7 @@ export class JobEntity extends BaseEntity {
     @Column({ name: 'max_applications' })
     maxApplications?: number;
 
-    @OneToMany(() => ApplicationEntity, application => application.jobId, {
+    @OneToMany(() => ApplicationEntity, application => application.job, {
         onDelete: "CASCADE"
     })
     applications?: ApplicationEntity[]

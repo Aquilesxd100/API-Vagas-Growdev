@@ -16,8 +16,8 @@ export default async function createAccountController(req: Request, res: Respons
             message: "Conta criada com sucesso!"
         });
     } catch (error : any) {
-        if (error.code) {
-            return res.status(error.code).send({
+        if (error.statusCode) {
+            return res.status(error.statusCode).send({
                 message: error.message
             });
         };

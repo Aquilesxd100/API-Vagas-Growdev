@@ -15,6 +15,6 @@ export class CandidateEntity extends BaseEntity {
     @Column({ name: 'password' })
     password?: string;
 
-    @OneToMany(() => ApplicationEntity, application => application.candidateId)
+    @OneToMany(() => ApplicationEntity, application => application.candidate)
     applications?: ApplicationEntity[]
 };

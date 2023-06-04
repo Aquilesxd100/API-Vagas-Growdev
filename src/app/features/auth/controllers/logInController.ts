@@ -15,8 +15,8 @@ export default async function logInController(req: Request, res : Response) {
             token: generatedToken
         });
     } catch(error : any) {
-        if(error.code) {
-            return res.status(error.code).send({
+        if(error.statusCode) {
+            return res.status(error.statusCode).send({
                 message: error.message
             });
         };

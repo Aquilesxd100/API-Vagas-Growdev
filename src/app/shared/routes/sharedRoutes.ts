@@ -33,12 +33,11 @@ sharedRoutes.get("/jobs", async (req: Request, res: Response) => {
         return res.status(200).send(jobs);
 
     } catch(error : any) {
-        if (error.code) {
-            return res.status(error.code).send({
+        if (error.statusCode) {
+            return res.status(error.statusCode).send({
                 message: error.message
             });
         };
-        console.log(error)
         return res.status(400).send({
             message: "Erro!"
         });

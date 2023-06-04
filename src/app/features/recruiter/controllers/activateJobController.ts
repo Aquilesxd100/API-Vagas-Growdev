@@ -13,8 +13,8 @@ export default async function activateJobController
         });        
         
     } catch (error : any) {
-        if (error.code) {
-            return res.status(error.code).send({
+        if (error.statusCode) {
+            return res.status(error.statusCode).send({
                 message: error.message
             });
         };
