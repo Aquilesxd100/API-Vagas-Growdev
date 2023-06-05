@@ -19,6 +19,10 @@ class ApplicationsTypeOrmRepository {
             where: { jobId: jobId }
         });
     };
+
+    async deleteApplications(applications : Array<ApplicationEntity>) {
+        await this.applicationsRepository?.remove(applications);
+    };
 };
 
 export const applicationRepository = new ApplicationsTypeOrmRepository;
