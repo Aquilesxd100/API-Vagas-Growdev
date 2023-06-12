@@ -23,7 +23,7 @@ class CacheRedisRepository {
     };
 
     async getCandidateById(id : string) {
-        const candidates : null | Array<RecruiterEntity> = await this.getAllCandidates();
+        const candidates : null | Array<CandidateEntity> = await this.getAllCandidates();
         if (candidates) {
             return candidates.find((candidate) => candidate.id === id);
         };
