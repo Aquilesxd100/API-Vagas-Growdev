@@ -2,6 +2,7 @@ import { Redis } from "ioredis";
 import { redis } from "../../../main/config/redisconfig";
 import { CandidateEntity } from "../entities/candidate.entity";
 import { RecruiterEntity } from "../entities/recruiter.entity";
+import { JobEntity } from "../entities/job.entity";
 
 class CacheRedisRepository {
     private repository : Redis = redis;
@@ -93,6 +94,22 @@ class CacheRedisRepository {
 
     async invalidRecruiters() {
         await this.repository.del("all-recruiters");
+    };
+
+
+
+
+    async saveJobById(jobId : string, job : JobEntity) {
+        const processedJob : string = JSON.stringify(job);
+        await this.repository.set("job-" + jobId, processedJob);
+    };
+
+    async getJobById(jobId : string) {
+        const job : string | null = await this.repository.get("job-" + jobId);
+        if (job) {
+            return JSON.parse(job);
+        };
+        return job;
     };
 
 };
