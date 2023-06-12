@@ -1,7 +1,7 @@
 import { Redis } from "ioredis";
 import { redis } from "../../../main/config/redisconfig";
 
-export default class CacheRedisRepository {
+class CacheRedisRepository {
     private repository : Redis = redis;
 
     async getAllCandidates() {
@@ -12,3 +12,5 @@ export default class CacheRedisRepository {
         return await this.repository.get("all-recruiters");
     };
 };
+
+export const redisRepository = new CacheRedisRepository;
