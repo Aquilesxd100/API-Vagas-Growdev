@@ -5,7 +5,7 @@ import getCurrentDate from "../../../shared/helpers/getCurrentDate";
 import isExpiredDateCheck from "../../../shared/helpers/isExpiredDateCheck";
 import { LoggedUserInfosType } from "../../auth/types/types";
 
-export default async function applyValidator
+export default function applyValidator
 (loggedUserInfos : LoggedUserInfosType, job : JobEntity) {
     if (job.applications && job.maxApplications && job.applications.length >= job.maxApplications) {
         throw new BadRequestError("Essa vaga já atingiu seu número máximo de candidaturas.");

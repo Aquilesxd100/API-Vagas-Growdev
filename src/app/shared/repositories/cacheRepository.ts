@@ -3,6 +3,7 @@ import { redis } from "../../../main/config/redisconfig";
 import { CandidateEntity } from "../entities/candidate.entity";
 import { RecruiterEntity } from "../entities/recruiter.entity";
 import { JobEntity } from "../entities/job.entity";
+import { ApplicationEntity } from "../entities/candidate_x_job_application.entity";
 
 class CacheRedisRepository {
     private repository : Redis = redis;
@@ -99,9 +100,9 @@ class CacheRedisRepository {
 
 
 
-    async saveJobById(jobId : string, job : JobEntity) {
+    async saveJobById(job : JobEntity) {
         const processedJob : string = JSON.stringify(job);
-        await this.repository.set("job-" + jobId, processedJob);
+        await this.repository.set("job-" + job.id, processedJob);
     };
 
     async getJobById(jobId : string) {
@@ -110,6 +111,41 @@ class CacheRedisRepository {
             return JSON.parse(job);
         };
         return job;
+    };
+
+
+
+
+
+    async getAllApplications() {
+        const applications : string | null = await this.repository.get("all-applications");
+        if (applications) {
+            return JSON.parse(applications);
+        };
+        return applications;
+    };
+
+    async getApplicationsByJobId(jobId : string) {
+        const allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
+        if (allApplications) {
+            return allApplications.filter((application) => application.jobId === jobId);
+        };
+        return allApplications;
+    };
+
+    async updateApplications(newApplication : ApplicationEntity) {
+        let allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
+        if (allApplications) {
+            allApplications.push(newApplication);
+            await this.setApplications(allApplications);
+        } else {
+            await this.setApplications([newApplication]);
+        };
+    };
+
+    async setApplications(applicationsList : Array<ApplicationEntity>) {
+        const processedList = JSON.stringify(applicationsList);
+        await this.repository.set("all-applications", processedList);
     };
 
 };
