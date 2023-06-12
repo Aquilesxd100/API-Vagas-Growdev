@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { CandidateEntity } from "../../../../shared/entities/candidate.entity";
 import { candidateRepository } from "../../../candidate/repositorie/candidateTypeOrmRepository";
+import { redisRepository } from "../../../../shared/repositories/cacheRepository";
 
 export default async function validCandidateIdMiddleware
 (req : Request, res: Response, next: NextFunction) {
@@ -24,7 +25,7 @@ export default async function validCandidateIdMiddleware
         });
     };
 
-    const foundCandidate : CandidateEntity | null | undefined = await candidateRepository.getCandidateById(userId);
+    const foundCandidate : CandidateEntity | null | undefined = await redisRepository.getCandidateById(userId) || await candidateRepository.getCandidateById(userId);
 
     if (!foundCandidate) {
         return res.status(404).send({
