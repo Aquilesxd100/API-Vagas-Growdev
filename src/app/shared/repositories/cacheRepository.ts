@@ -22,6 +22,14 @@ class CacheRedisRepository {
         return candidates;
     };
 
+    async getCandidateById(id : string) {
+        const candidates : null | Array<RecruiterEntity> = await this.getAllCandidates();
+        if (candidates) {
+            return candidates.find((candidate) => candidate.id === id);
+        };
+        return candidates;
+    };
+
     async updateCandidateList(newCandidate : CandidateEntity) {
         const candidateList : null | Array<CandidateEntity> = await this.getAllCandidates();
         if (candidateList) {
@@ -56,6 +64,14 @@ class CacheRedisRepository {
         const recruiters : null | Array<RecruiterEntity> = await this.getAllRecruiters();
         if (recruiters) {
             return recruiters.find((recruiter) => recruiter.userName === username);
+        };
+        return recruiters;
+    };
+
+    async getRecruiterById(id : string) {
+        const recruiters : null | Array<RecruiterEntity> = await this.getAllRecruiters();
+        if (recruiters) {
+            return recruiters.find((recruiter) => recruiter.id === id);
         };
         return recruiters;
     };
