@@ -9,7 +9,7 @@ import applyValidator from "../validators/applyValidator";
 
 export default async function applyForJobUC
 (loggedUserInfos : LoggedUserInfosType, job : JobEntity) {
-    const jobWithApplications = await redisRepository.getJobById(job.id as string) || await jobsRepository.getJobByIdWithApplications(job.id as string) as JobEntity;
+    const jobWithApplications = await redisRepository.getJobByIdWithApplications(job.id as string) || await jobsRepository.getJobByIdWithApplications(job.id as string) as JobEntity;
     applyValidator(loggedUserInfos, jobWithApplications);
 
     const newApplication : ApplicationEntity = new ApplicationEntity;
