@@ -3,6 +3,7 @@ import AuthenticationError from "../../../shared/errors/authenticationError";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";
 import { recruiterRepository } from "../../recruiter/repositorie/recruiterTypeOrmRepository";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 
 export default async function findAccountInfosUC
 (username : string, password : string) : Promise<LogInAccountType> {
@@ -12,7 +13,7 @@ export default async function findAccountInfosUC
         user: null
     };
 
-    const checkCandidateAccount = await candidateRepository.getCandidateByUserName(username);
+    const checkCandidateAccount = await redisRepository.getCandidateByUsername(username) || await candidateRepository.getCandidateByUserName(username);
 
     if (checkCandidateAccount) {
         loggedAccountInfos.userId = checkCandidateAccount.id as string;
@@ -21,7 +22,7 @@ export default async function findAccountInfosUC
     };
 
     const checkRecruiterAccount = !checkCandidateAccount 
-    ? await recruiterRepository.getRecruiterByUserName(username) 
+    ? await redisRepository.getRecruiterByUsername(username) || await recruiterRepository.getRecruiterByUserName(username) 
     : undefined;
 
     if (checkRecruiterAccount) {
