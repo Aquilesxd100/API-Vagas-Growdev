@@ -113,6 +113,19 @@ class CacheRedisRepository {
         return job;
     };
 
+    async getJobByIdWithApplications(jobId : string) {
+        let job : null | JobEntity = await this.getJobById(jobId);
+        if (job) {
+            const applications = await this.getApplicationsByJobId(jobId);
+            if (applications) {
+                job.applications = applications;
+            } else {
+                job.applications = [];
+            };
+        };
+        return job;
+    };
+
 
 
 
