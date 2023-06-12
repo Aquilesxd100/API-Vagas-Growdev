@@ -22,6 +22,16 @@ class CacheRedisRepository {
         return candidates;
     };
 
+    async updateCandidateList(newCandidate : CandidateEntity) {
+        const candidateList : null | Array<CandidateEntity> = await this.getAllCandidates();
+        if (candidateList) {
+            candidateList.push(newCandidate);
+            await this.setCandidates(candidateList);
+        } else {
+            await this.setCandidates([newCandidate]);
+        };
+    };
+
     async setCandidates(candidatesList : Array<CandidateEntity>) {
         const processedList = JSON.stringify(candidatesList);
         await this.repository.set("all-candidates", processedList);
@@ -48,6 +58,16 @@ class CacheRedisRepository {
             return recruiters.find((recruiter) => recruiter.userName === username);
         };
         return recruiters;
+    };
+
+    async updateRecruitersList(newRecruiter : RecruiterEntity) {
+        const recruiterList : null | Array<CandidateEntity> = await this.getAllRecruiters();
+        if (recruiterList) {
+            recruiterList.push(newRecruiter);
+            await this.setRecruiters(recruiterList);
+        } else {
+            await this.setRecruiters([newRecruiter]);
+        };
     };
 
     async setRecruiters(recruitersList : Array<RecruiterEntity>) {
