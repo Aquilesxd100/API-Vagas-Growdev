@@ -12,12 +12,12 @@ export default async function validNewUserName
     let checkSameUsername : boolean = false;
 
     let sameCandidate = await redisRepository.getCandidateByUsername(userName);
-    if (sameCandidate === null) {
+    if (!sameCandidate) {
         sameCandidate = await candidateRepository.getCandidateByUserName(userName);
     };
 
     let sameRecruiter = await redisRepository.getRecruiterByUsername(userName);
-    if (sameRecruiter === null) {
+    if (!sameRecruiter) {
         sameRecruiter = await recruiterRepository.getRecruiterByUserName(userName);
     };
 
