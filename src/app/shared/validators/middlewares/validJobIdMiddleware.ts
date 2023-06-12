@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { JobEntity } from "../../entities/job.entity";
 import { jobsRepository } from "../../repositories/jobsTypeOrmRepository";
+import { redisRepository } from "../../repositories/cacheRepository";
 
 export default async function validJobIdMiddleware
 (req : Request, res : Response, next : NextFunction) {
@@ -24,7 +25,7 @@ export default async function validJobIdMiddleware
         });
     };
 
-    const job : JobEntity | undefined | null = await jobsRepository.getJobById(jobId);
+    const job : JobEntity | undefined | null = await redisRepository.getJobById(jobId) || await jobsRepository.getJobById(jobId);
     if (!job) {
         return res.status(404).send({
             message: "Vaga não encontrada."
