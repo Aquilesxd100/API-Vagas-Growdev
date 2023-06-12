@@ -146,6 +146,14 @@ class CacheRedisRepository {
         return allApplications;
     };
 
+    async getApplicationsByCandidateId(candidateId : string) {
+        const allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
+        if (allApplications) {
+            return allApplications.filter((application) => application.candidateId === candidateId);
+        };
+        return allApplications;
+    };
+
     async updateApplications(newApplication : ApplicationEntity) {
         let allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
         if (allApplications) {
