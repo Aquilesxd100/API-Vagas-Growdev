@@ -1,5 +1,6 @@
 import { RecruiterEntity } from "../../../shared/entities/recruiter.entity";
 import BadRequestError from "../../../shared/errors/badRequestError";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 import { recruiterRepository } from "../../recruiter/repositorie/recruiterTypeOrmRepository";
 import { newRecruiterInfosType } from "../types/types";
 
@@ -14,4 +15,5 @@ createRecruiterUC(newRecruiterInfos : newRecruiterInfosType) {
     newRecruiter.password = newRecruiterInfos.password;
     newRecruiter.companyName = newRecruiterInfos.companyName;
     await recruiterRepository.saveRecruiter(newRecruiter);
+    await redisRepository.updateRecruitersList(newRecruiter);
 };
