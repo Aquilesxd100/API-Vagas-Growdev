@@ -1,3 +1,4 @@
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";
 import { recruiterRepository } from "../../recruiter/repositorie/recruiterTypeOrmRepository"
@@ -9,16 +10,27 @@ export default async function validNewUserName
     };
     
     let checkSameUsername : boolean = false;
+
+    let sameCandidate = await redisRepository.getCandidateByUsername(userName);
+    if (sameCandidate === null) {
+        sameCandidate = await candidateRepository.getCandidateByUserName(userName);
+    };
+
+    let sameRecruiter = await redisRepository.getRecruiterByUsername(userName);
+    if (sameRecruiter === null) {
+        sameRecruiter = await recruiterRepository.getRecruiterByUserName(userName);
+    };
+
     if (
-       await candidateRepository.getCandidateByUserName(userName) 
-    || await recruiterRepository.getRecruiterByUserName(userName)
+       sameCandidate
+    || sameRecruiter
     || await adminRepository.getAdminByUserName(userName)
     ) {
         checkSameUsername = true;  
     };
 
     if (checkSameUsername) {
-        return "Esse username já está em uso."
+        return "Esse username já está em uso.";
     };
     return true;
 };

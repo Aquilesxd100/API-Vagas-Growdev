@@ -31,6 +31,9 @@ class CacheRedisRepository {
         await this.repository.del("all-candidates");
     };
 
+
+
+    
     async getAllRecruiters() {
         const allRecruiters : null | string = await this.repository.get("all-recruiters");
         if (allRecruiters) {
