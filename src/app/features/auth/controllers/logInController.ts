@@ -6,7 +6,6 @@ import findAccountInfosUC from "../usecases/findAccountInfosUC";
 export default async function logInController(req: Request, res : Response) {
     try {
         const { username, password } = req.body;
-
         const loggedAccountInfos : LogInAccountType = await findAccountInfosUC(username, password);
         const generatedToken : string = newTokenGeneratorUC(loggedAccountInfos);
         
