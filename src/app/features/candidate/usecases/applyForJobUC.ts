@@ -19,4 +19,5 @@ export default async function applyForJobUC
 
     await applicationRepository.saveApplication(newApplication);
     await redisRepository.updateApplications(newApplication);
+    await redisRepository.invalidateAllJobsWithApplications();
 };
