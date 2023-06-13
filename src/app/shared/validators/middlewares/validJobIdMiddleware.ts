@@ -25,11 +25,16 @@ export default async function validJobIdMiddleware
         });
     };
 
-    const job : JobEntity | undefined | null = await redisRepository.getJobById(jobId) || await jobsRepository.getJobById(jobId);
+    let job : JobEntity | undefined | null = await redisRepository.getJobById(jobId);
+    if (!job) {
+        job = await jobsRepository.getJobById(jobId);
+    };
     if (!job) {
         return res.status(404).send({
             message: "Vaga não encontrada."
         });
+    } else {
+        await redisRepository.setJobById(job);
     };
     req.body.currentJob = job;
 

@@ -9,4 +9,5 @@ export default async function activateJobUC
 
     job.activeStatus = true;
     await jobsRepository.saveJob(job);
+    
 };

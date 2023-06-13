@@ -10,6 +10,7 @@ import applyValidator from "../validators/applyValidator";
 export default async function applyForJobUC
 (loggedUserInfos : LoggedUserInfosType, job : JobEntity) {
     const jobWithApplications = await redisRepository.getJobByIdWithApplications(job.id as string) || await jobsRepository.getJobByIdWithApplications(job.id as string) as JobEntity;
+    
     applyValidator(loggedUserInfos, jobWithApplications);
 
     const newApplication : ApplicationEntity = new ApplicationEntity;
@@ -18,6 +19,6 @@ export default async function applyForJobUC
     newApplication.applicationDate = getCurrentDate();
 
     await applicationRepository.saveApplication(newApplication);
-    await redisRepository.updateApplications(newApplication);
     await redisRepository.invalidateAllJobsWithApplications();
+    await redisRepository.invalidateApplications();
 };

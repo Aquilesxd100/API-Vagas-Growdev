@@ -9,7 +9,7 @@ export default async function createJobUC
     newJob.activeStatus = true;
     newJob.recruiterId = loggedUserInfos.loggedUser.id;
     await jobsRepository.saveJob(newJob)
-    await redisRepository.updateJobsList(newJob);
+    await redisRepository.saveNewJob(newJob);
     await redisRepository.saveJobById(newJob);
     await redisRepository.invalidateAllJobsWithApplications();
 };

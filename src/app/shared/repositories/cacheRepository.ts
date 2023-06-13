@@ -47,13 +47,6 @@ class CacheRedisRepository {
         const processedList = JSON.stringify(candidatesList);
         await this.repository.set("all-candidates", processedList);
     };
-
-    async invalidCandidates() {
-        await this.repository.del("all-candidates");
-    };
-
-
-
     
     async getAllRecruiters() {
         const allRecruiters : null | string = await this.repository.get("all-recruiters");
@@ -94,14 +87,10 @@ class CacheRedisRepository {
         await this.repository.set("all-recruiters", processedList);
     };
 
-    async invalidRecruiters() {
-        await this.repository.del("all-recruiters");
-    };
 
 
 
-
-    async saveJobById(job : JobEntity) {
+    async setJobById(job : JobEntity) {
         const processedJob : string = JSON.stringify(job);
         await this.repository.set("job-" + job.id, processedJob);
     };
@@ -115,16 +104,12 @@ class CacheRedisRepository {
     };
 
     async getJobByIdWithApplications(jobId : string) {
-        let job : null | JobEntity = await this.getJobById(jobId);
-        if (job) {
-            const applications = await this.getApplicationsByJobId(jobId);
-            if (applications) {
-                job.applications = applications;
-            } else {
-                job.applications = [];
-            };
+        const jobsList : string | null = await this.repository.get("jobs-with-application");
+        if (jobsList) {
+            const jobListProcessed : Array<JobEntity> = JSON.parse(jobsList);
+            return jobListProcessed.find((job) => job.id === jobId);
         };
-        return job;
+        return jobsList as any;
     };
 
     async setAllJobs(jobsList : Array<Job>) {
@@ -140,18 +125,7 @@ class CacheRedisRepository {
         return jobs;
     };
 
-    async updateJobsList(newJob : JobEntity) {
-        const newJobProcessed = new Job(newJob);
-        const jobsList : null | Array<Job> = await this.getAllJobs();
-        if (jobsList) {
-            jobsList.push(newJobProcessed);
-            await this.setAllJobs(jobsList);
-        } else {
-            await this.setAllJobs([newJobProcessed]);
-        };
-    };
-
-    async saveAllJobsWithApplications(jobsList : Array<JobEntity>) {
+    async setAllJobsWithApplications(jobsList : Array<JobEntity>) {
         const processedJobs : string = JSON.stringify(jobsList);
         await this.repository.set("all-jobs-with-applications", processedJobs);
     };
@@ -170,31 +144,23 @@ class CacheRedisRepository {
 
 
 
-    async getAllApplications() {
+/*     async getAllApplications() {
         const applications : string | null = await this.repository.get("all-applications");
         if (applications) {
             return JSON.parse(applications);
         };
         return applications;
-    };
+    }; */
 
-    async getApplicationsByJobId(jobId : string) {
+/*     async getApplicationsByJobId(jobId : string) {
         const allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
         if (allApplications) {
             return allApplications.filter((application) => application.jobId === jobId);
         };
         return allApplications;
-    };
+    }; */
 
-    async getApplicationsByCandidateId(candidateId : string) {
-        const allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
-        if (allApplications) {
-            return allApplications.filter((application) => application.candidateId === candidateId);
-        };
-        return allApplications;
-    };
-
-    async updateApplications(newApplication : ApplicationEntity) {
+/*     async updateApplications(newApplication : ApplicationEntity) {
         let allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
         if (allApplications) {
             allApplications.push(newApplication);
@@ -202,19 +168,23 @@ class CacheRedisRepository {
         } else {
             await this.setApplications([newApplication]);
         };
-    };
+    }; */
 
-    async removeApplicationsByJobId(jobId: string) {
+/*     async removeApplicationsByJobId(jobId: string) {
         const applicationsList : Array<ApplicationEntity> = await this.getAllApplications();
         if (applicationsList) {
             const filteredApplications = applicationsList.filter((application) => application.jobId !== jobId);
             await this.setApplications(filteredApplications);
         };
-    };
+    }; */
 
-    async setApplications(applicationsList : Array<ApplicationEntity>) {
+/*     async setApplications(applicationsList : Array<ApplicationEntity>) {
         const processedList = JSON.stringify(applicationsList);
         await this.repository.set("all-applications", processedList);
+    }; */
+
+    async invalidateApplications() {
+        await this.repository.del("all-applications");
     };
 
 };
