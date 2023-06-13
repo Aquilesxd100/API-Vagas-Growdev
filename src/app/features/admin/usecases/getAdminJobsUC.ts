@@ -5,13 +5,20 @@ import { JobsQueriesType } from "../../../shared/types/types";
 import validAdminJobsQueries from "../validators/validAdminJobsQueries";
 import { JobEntity } from "../../../shared/entities/job.entity";
 import isExpiredDateCheck from "../../../shared/helpers/isExpiredDateCheck";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 
 export default async function getAdminJobsUC
 (queries : JobsQueriesType) : Promise<Array<JobEntity>> {
     queries = queriesLowCaseConveter(queries)
     validAdminJobsQueries(queries);
     queries = queryBooleanConverter(queries);
-    let jobs : Array<JobEntity> = await jobsRepository.getAllJobsWithApplications();
+
+    let jobs : Array<JobEntity> = await redisRepository.getAllJobsWithApplications();
+    if (!jobs) {
+        jobs = await jobsRepository.getAllJobsWithApplications();
+        await redisRepository.saveAllJobsWithApplications(jobs);
+    };
+
     if (queries.recruiter) {
         jobs = jobs.filter((job) => job.recruiterId === queries.recruiter);
     };
