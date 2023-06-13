@@ -204,6 +204,14 @@ class CacheRedisRepository {
         };
     };
 
+    async removeApplicationsByJobId(jobId: string) {
+        const applicationsList : Array<ApplicationEntity> = await this.getAllApplications();
+        if (applicationsList) {
+            const filteredApplications = applicationsList.filter((application) => application.jobId !== jobId);
+            await this.setApplications(filteredApplications);
+        };
+    };
+
     async setApplications(applicationsList : Array<ApplicationEntity>) {
         const processedList = JSON.stringify(applicationsList);
         await this.repository.set("all-applications", processedList);
