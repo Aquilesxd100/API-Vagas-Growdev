@@ -126,6 +126,19 @@ class CacheRedisRepository {
         return job;
     };
 
+    async saveAllJobsWithApplications(jobsList : Array<JobEntity>) {
+        const processedJobs : string = JSON.stringify(jobsList);
+        await this.repository.set("all-jobs-with-applications", processedJobs);
+    };
+
+    async getAllJobsWithApplications() {
+        const jobs : string | null = await this.repository.get("all-jobs-with-applications");
+        if (jobs) {
+            return JSON.parse(jobs);
+        };
+        return jobs;
+    };
+
 
 
 
