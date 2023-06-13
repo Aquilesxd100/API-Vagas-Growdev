@@ -126,6 +126,29 @@ class CacheRedisRepository {
         return job;
     };
 
+    async setAllJobs(jobsList : Array<JobEntity>) {
+        const processedJobs : string = JSON.stringify(jobsList);
+        await this.repository.set("all-jobs", processedJobs);
+    };
+
+    async getAllJobs() {
+        const jobs : string | null = await this.repository.get("all-jobs");
+        if (jobs) {
+            return JSON.parse(jobs);
+        };
+        return jobs;
+    };
+
+    async updateJobsList(newJob : JobEntity) {
+        const jobsList : null | Array<JobEntity> = await this.getAllJobs();
+        if (jobsList) {
+            jobsList.push(newJob);
+            await this.setAllJobs(jobsList);
+        } else {
+            await this.setAllJobs([newJob]);
+        };
+    };
+
     async saveAllJobsWithApplications(jobsList : Array<JobEntity>) {
         const processedJobs : string = JSON.stringify(jobsList);
         await this.repository.set("all-jobs-with-applications", processedJobs);
@@ -139,7 +162,9 @@ class CacheRedisRepository {
         return jobs;
     };
 
-
+    async invalidateAllJobsWithApplications() {
+        await this.repository.del("all-jobs-with-applications");
+    };
 
 
 
