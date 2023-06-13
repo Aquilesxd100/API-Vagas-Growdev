@@ -3,7 +3,7 @@ import validDateFormat from "../../../../shared/validators/validDateFormat";
 import isExpiredDateCheck from "../../../../shared/helpers/isExpiredDateCheck";
 import getCurrentDate from "../../../../shared/helpers/getCurrentDate";
 
-export default async function validCreateJobInfos(req : Request, res : Response, next : NextFunction) {
+export default function validCreateJobInfos(req : Request, res : Response, next : NextFunction) {
     const { description, companyName, expirationDate, maxApplications } = req.body;
     const infosStringArray = [description, companyName, expirationDate];
 
