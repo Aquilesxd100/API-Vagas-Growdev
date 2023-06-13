@@ -4,6 +4,7 @@ import { CandidateEntity } from "../entities/candidate.entity";
 import { RecruiterEntity } from "../entities/recruiter.entity";
 import { JobEntity } from "../entities/job.entity";
 import { ApplicationEntity } from "../entities/candidate_x_job_application.entity";
+import Job from "../../models/Job";
 
 class CacheRedisRepository {
     private repository : Redis = redis;
@@ -126,7 +127,7 @@ class CacheRedisRepository {
         return job;
     };
 
-    async setAllJobs(jobsList : Array<JobEntity>) {
+    async setAllJobs(jobsList : Array<Job>) {
         const processedJobs : string = JSON.stringify(jobsList);
         await this.repository.set("all-jobs", processedJobs);
     };
@@ -140,12 +141,13 @@ class CacheRedisRepository {
     };
 
     async updateJobsList(newJob : JobEntity) {
-        const jobsList : null | Array<JobEntity> = await this.getAllJobs();
+        const newJobProcessed = new Job(newJob);
+        const jobsList : null | Array<Job> = await this.getAllJobs();
         if (jobsList) {
-            jobsList.push(newJob);
+            jobsList.push(newJobProcessed);
             await this.setAllJobs(jobsList);
         } else {
-            await this.setAllJobs([newJob]);
+            await this.setAllJobs([newJobProcessed]);
         };
     };
 
