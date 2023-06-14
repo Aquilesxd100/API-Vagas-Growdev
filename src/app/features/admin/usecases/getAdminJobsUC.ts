@@ -16,7 +16,7 @@ export default async function getAdminJobsUC
     let jobs : Array<JobEntity> = await redisRepository.getAllJobsWithApplications();
     if (!jobs) {
         jobs = await jobsRepository.getAllJobsWithApplications();
-        await redisRepository.saveAllJobsWithApplications(jobs);
+        await redisRepository.setAllJobsWithApplications(jobs);
     };
 
     if (queries.recruiter) {
