@@ -2,6 +2,7 @@ import { ApplicationEntity } from "../../../shared/entities/candidate_x_job_appl
 import { JobEntity } from "../../../shared/entities/job.entity";
 import ForbiddenError from "../../../shared/errors/forbiddenError";
 import { applicationRepository } from "../../../shared/repositories/applicationsTypeOrmRepository";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 import { LoggedUserInfosType } from "../../auth/types/types";
 
 export default async function getCandidatesByJobIdUC
@@ -11,7 +12,7 @@ export default async function getCandidatesByJobIdUC
         throw new ForbiddenError("Somente o criador da vaga pode ver as inscrições a ela.");
     };
 
-    const applications : Array<ApplicationEntity> | undefined = await applicationRepository.getApplicationsByJobId(job.id as string);
+    const applications : Array<ApplicationEntity> | undefined = await redisRepository.getApplicationsByJobId(job.id as string) || await applicationRepository.getApplicationsByJobId(job.id as string);
 
     return applications;
 };

@@ -103,13 +103,8 @@ class CacheRedisRepository {
         return job;
     };
 
-    async getJobByIdWithApplications(jobId : string) {
-        const jobsList : string | null = await this.repository.get("jobs-with-application");
-        if (jobsList) {
-            const jobListProcessed : Array<JobEntity> = JSON.parse(jobsList);
-            return jobListProcessed.find((job) => job.id === jobId);
-        };
-        return jobsList as any;
+    async invalidateJobById(jobId : string) {
+        await this.repository.del("job-" + jobId);
     };
 
     async setAllJobs(jobsList : Array<Job>) {
@@ -125,6 +120,19 @@ class CacheRedisRepository {
         return jobs;
     };
 
+    async invalidateAllJobs() {
+        await this.repository.del("all-jobs");
+    };
+
+    async getJobByIdWithApplications(jobId : string) {
+        const jobsList : string | null = await this.repository.get("all-jobs-with-applications");
+        if (jobsList) {
+            const jobListProcessed : Array<JobEntity> = JSON.parse(jobsList);
+            return jobListProcessed.find((job) => job.id === jobId);
+        };
+        return jobsList as any;
+    };
+
     async setAllJobsWithApplications(jobsList : Array<JobEntity>) {
         const processedJobs : string = JSON.stringify(jobsList);
         await this.repository.set("all-jobs-with-applications", processedJobs);
@@ -138,45 +146,35 @@ class CacheRedisRepository {
         return jobs;
     };
 
+    async getAllJobsWithApplicationsByRecruiterId(recruiterId : string) {
+        const jobsList : null | Array<JobEntity> = await this.getAllJobsWithApplications();
+        if (jobsList) {
+            return jobsList.filter((job) => job.recruiterId === recruiterId);
+        };
+        return jobsList;
+    };
+
     async invalidateAllJobsWithApplications() {
         await this.repository.del("all-jobs-with-applications");
     };
 
 
 
-/*     async getAllApplications() {
+    async getAllApplications() {
         const applications : string | null = await this.repository.get("all-applications");
         if (applications) {
             return JSON.parse(applications);
         };
         return applications;
-    }; */
+    };
 
-/*     async getApplicationsByJobId(jobId : string) {
+    async getApplicationsByJobId(jobId : string) {
         const allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
         if (allApplications) {
             return allApplications.filter((application) => application.jobId === jobId);
         };
         return allApplications;
-    }; */
-
-/*     async updateApplications(newApplication : ApplicationEntity) {
-        let allApplications : Array<ApplicationEntity> | null = await this.getAllApplications();
-        if (allApplications) {
-            allApplications.push(newApplication);
-            await this.setApplications(allApplications);
-        } else {
-            await this.setApplications([newApplication]);
-        };
-    }; */
-
-/*     async removeApplicationsByJobId(jobId: string) {
-        const applicationsList : Array<ApplicationEntity> = await this.getAllApplications();
-        if (applicationsList) {
-            const filteredApplications = applicationsList.filter((application) => application.jobId !== jobId);
-            await this.setApplications(filteredApplications);
-        };
-    }; */
+    };
 
 /*     async setApplications(applicationsList : Array<ApplicationEntity>) {
         const processedList = JSON.stringify(applicationsList);

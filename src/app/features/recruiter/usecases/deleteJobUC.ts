@@ -17,8 +17,10 @@ export default async function deleteJobUC
 
     if (job.applications && job.applications.length) {
         await applicationRepository.deleteApplications(job.applications);
-        await redisRepository.removeApplicationsByJobId(job.id as string);
+        await redisRepository.invalidateApplications();
     };
     await jobsRepository.deleteJob(job);
     await redisRepository.invalidateAllJobsWithApplications();
+    await redisRepository.invalidateAllJobs();
+    await redisRepository.invalidateJobById(job.id as string);
 };

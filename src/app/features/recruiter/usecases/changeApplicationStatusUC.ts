@@ -4,6 +4,7 @@ import BadRequestError from "../../../shared/errors/badRequestError";
 import ForbiddenError from "../../../shared/errors/forbiddenError";
 import NotFoundError from "../../../shared/errors/notFoundError";
 import { applicationRepository } from "../../../shared/repositories/applicationsTypeOrmRepository";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 import { LoggedUserInfosType } from "../../auth/types/types";
 
 export default async function changeApplicationStatusUC
@@ -13,7 +14,7 @@ export default async function changeApplicationStatusUC
         throw new ForbiddenError("Somente o criador da vaga pode alterar seus status de candidatura.");
     };
 
-    const allApplications  = await applicationRepository.getApplicationsByJobId(job.id as string) as Array<ApplicationEntity>;
+    const allApplications  = await redisRepository.getApplicationsByJobId(job.id as string) || await applicationRepository.getApplicationsByJobId(job.id as string) as Array<ApplicationEntity>;
 
     const foundApplication : ApplicationEntity | undefined = allApplications.find((application) => application.candidateId === candidateId);
 
@@ -27,4 +28,6 @@ export default async function changeApplicationStatusUC
 
     foundApplication.approval = status === "approve" ? true : false;
     await applicationRepository.saveApplication(foundApplication);
+    await redisRepository.invalidateApplications();
+    await redisRepository.invalidateAllJobsWithApplications();
 };
