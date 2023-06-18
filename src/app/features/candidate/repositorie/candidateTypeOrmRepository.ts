@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { pgHelper } from "../../../shared/helpers/pgHelper";
 import { CandidateEntity } from "../../../shared/entities/candidate.entity";
+import { redisRepository } from "../../../shared/repositories/cacheRepository";
 
 
 class CandidateTypeOrmRepository {
@@ -15,7 +16,11 @@ class CandidateTypeOrmRepository {
     };
 
     async getCandidateByUserName(userName : string) : Promise<CandidateEntity | null | undefined> {
-        return await this.candidateRepository?.findOne({ where: { userName: userName } });
+        const searchedCandidate = await this.candidateRepository?.findOne({ where: { userName: userName } });
+        if (searchedCandidate) {
+            await redisRepository.updateCandidateList(searchedCandidate);
+        };
+        return searchedCandidate;
     };
 
     async createCandidate(newCandidate : CandidateEntity) : Promise<void> {

@@ -15,5 +15,4 @@ createRecruiterUC(newRecruiterInfos : newRecruiterInfosType) {
     newRecruiter.password = newRecruiterInfos.password;
     newRecruiter.companyName = newRecruiterInfos.companyName;
     await recruiterRepository.saveRecruiter(newRecruiter);
-    await redisRepository.updateRecruitersList(newRecruiter);
 };

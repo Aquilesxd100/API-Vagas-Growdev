@@ -4,7 +4,6 @@ import { CandidateEntity } from "../../../shared/entities/candidate.entity";
 import { adminRepository } from "../../admin/repositorie/adminTypeOrmRepository";
 import { candidateRepository } from "../../candidate/repositorie/candidateTypeOrmRepository";
 import BadRequestError from "../../../shared/errors/badRequestError";
-import { redisRepository } from "../../../shared/repositories/cacheRepository";
 
 export default async function createAccountUC
 (newAccountInfos : newAccountType) : Promise<void> {
@@ -28,7 +27,6 @@ export default async function createAccountUC
     createdAccount.password = newAccountInfos.password;
     if (newAccountInfos.accountType === "candidate") {
         await candidateRepository.createCandidate(createdAccount);
-        await redisRepository.updateCandidateList(createdAccount);
     } else {
         await adminRepository.createAdmin(createdAccount);
     };
