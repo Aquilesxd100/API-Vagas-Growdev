@@ -20,6 +20,7 @@ export default async function createJobController
         });
 
     } catch (error : any) {
+        console.log(error)
         if (error.statusCode) {
             return res.status(error.statusCode).send({
                 message: error.message
