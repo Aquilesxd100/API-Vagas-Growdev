@@ -7,20 +7,17 @@ import { LoggedUserInfosType } from "../../auth/types/types";
 
 export default async function deleteJobUC
 (loggedUserInfos : LoggedUserInfosType, job : JobEntity) {
-
     if (job.recruiterId !== loggedUserInfos.loggedUser.id) {
         throw new ForbiddenError("Somente o criador da vaga pode a excluir.");
     };
 
     job = await redisRepository.getJobByIdWithApplications(job.id as string) || await jobsRepository.getJobByIdWithApplications(job.id as string) as JobEntity;
-
-
     if (job.applications && job.applications.length) {
         await applicationRepository.deleteApplications(job.applications);
         await redisRepository.invalidateApplications();
     };
-    await jobsRepository.deleteJob(job);
     await redisRepository.invalidateAllJobsWithApplications();
     await redisRepository.invalidateAllJobs();
     await redisRepository.invalidateJobById(job.id as string);
+    await jobsRepository.deleteJob(job);
 };
